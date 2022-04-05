@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { tokenRequestAPI } from '../actions';
 
 class Login extends React.Component {
@@ -45,8 +46,19 @@ class Login extends React.Component {
           disabled={ this.validateEmail() }
           onClick={ token }
         >
-          PLAY
+          Play
         </button>
+        <Link to="/configuracoes">
+          <button
+            data-testid="btn-settings"
+            type="button"
+          // disabled={ this.validateEmail() }
+          // onClick={ token }
+          >
+            Configurações
+          </button>
+        </Link>
+
       </form>
     );
   };
