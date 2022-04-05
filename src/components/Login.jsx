@@ -1,4 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { tokenRequestAPI } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -9,9 +12,8 @@ class Login extends React.Component {
     };
   }
 
-  // Fonte do regex https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
-
   inputLogin = () => {
+    const { token } = this.props;
     const { email, name } = this.state;
     return (
       <form>
@@ -41,7 +43,7 @@ class Login extends React.Component {
           data-testid="btn-play"
           type="button"
           disabled={ this.validateEmail() }
-          onChange={ console.log('test') }
+          onClick={ token }
         >
           PLAY
         </button>
@@ -57,6 +59,8 @@ class Login extends React.Component {
       },
     );
   }
+
+  // Fonte do regex https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
 
   validateEmail() {
     const { email, name } = this.state;
@@ -79,4 +83,11 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({ // dispatch do User
+  token: () => dispatch(tokenRequestAPI()),
+});
+Login.propTypes = {
+  token: PropTypes.func,
+}.isRequired;
+
+export default connect(null, mapDispatchToProps)(Login);
