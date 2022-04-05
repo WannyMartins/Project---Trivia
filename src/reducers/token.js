@@ -1,14 +1,13 @@
-const INITIAL_STATE = {
-  token: {},
-};
+import { REQUEST_API_TOKEN_SUCESS } from '../actions';
+
+const INITIAL_STATE = {};
 
 const token = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'REQUEST_API_TOKEN_SUCESS':
-    return {
-      ...state,
-      token: action.tok,
-    };
+  case REQUEST_API_TOKEN_SUCESS:
+
+    return action.token;
+
   default:
     return state;
   }
