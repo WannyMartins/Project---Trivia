@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { tokenRequestAPI } from '../actions';
+import { setUser, tokenRequestAPI } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -14,11 +14,12 @@ class Login extends React.Component {
   }
 
   inputLogin = () => {
-    const { token } = this.props;
+    const { token, userName } = this.props;
     const { email, name } = this.state;
     return (
       <form>
         <label id="email" htmlFor="email">
+          Email
           <input
             data-testid="input-gravatar-email"
             type="text"
@@ -30,6 +31,7 @@ class Login extends React.Component {
           />
         </label>
         <label id="name" htmlFor="name">
+          Nome
           <input
             data-testid="input-player-name"
             type="text"
@@ -40,20 +42,23 @@ class Login extends React.Component {
             required
           />
         </label>
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ this.validateEmail() }
-          onClick={ token }
-        >
-          Play
-        </button>
+        <Link to="/jogo">
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ this.validateEmail() }
+            onClick={ () => {
+              token();
+              userName(name, email);
+            } }
+          >
+            Play
+          </button>
+        </Link>
         <Link to="/configuracoes">
           <button
             data-testid="btn-settings"
             type="button"
-          // disabled={ this.validateEmail() }
-          // onClick={ token }
           >
             Configurações
           </button>
@@ -87,9 +92,7 @@ class Login extends React.Component {
   render() {
     return (
       <>
-        <p>Oi</p>
         { this.inputLogin() }
-        <p>Inicio</p>
       </>
     );
   }
@@ -97,6 +100,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({ // dispatch do User
   token: () => dispatch(tokenRequestAPI()),
+  userName: (nameUser, email) => dispatch(setUser(nameUser, email)),
 });
 Login.propTypes = {
   token: PropTypes.func,
