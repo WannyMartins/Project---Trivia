@@ -7,8 +7,8 @@ export const tokenAPI = async () => {
 };
 
 export const questionAPI = async (token) => {
-  const request = await fetch(`https://opentdb.com/api.php?amount=1&token=${token} `);
+  const request = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const response = await request.json();
-  console.log(response);
+  // console.log(response);
   return response;
 };

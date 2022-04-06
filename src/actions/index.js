@@ -1,4 +1,4 @@
-import { tokenAPI, questionAPI} from './API';
+import { questionAPI, tokenAPI } from './API';
 
 export const REQUEST_API_TOKEN = 'REQUEST_API_TOKEN';
 export const REQUEST_API_TOKEN_SUCESS = 'REQUEST_API_TOKEN_SUCESS';
@@ -35,9 +35,9 @@ export const questionRequestFail = (error) => ({ // Função para alertar erro d
   type: REQUEST_API_QUESTION_FAIL, error,
 });
 
-export const questionRequestSucess = (question) => ({ // Função para dizer que foi um sucesso a requisição da API
+export const questionRequestSucess = (results) => ({ // Função para dizer que foi um sucesso a requisição da API
   type: REQUEST_API_QUESTION_SUCESS,
-  question,
+  results,
 });
 
 export const tokenRequestAPI = () => async (dispatch) => { // Despacha para o store o resultado da requisição
@@ -54,10 +54,8 @@ export const tokenRequestAPI = () => async (dispatch) => { // Despacha para o st
 export const questionRequestAPI = (token) => async (dispatch) => { // Despacha para o store o resultado da requisição
   dispatch(questionRequest()); // Invoca o primeiro Type
   try {
-    // console.log('questionRequest');
     const request = await questionAPI(token); // Pesquisa na URL a moeda
     dispatch(questionRequestSucess(request)); // Caso ache, ela entrará aqui e retorna-rá a moeda escolhida
-    console.log('🚀 ~ file: index.js ~ line 60 ~ questionRequestAPI ~ request', request);
   } catch (e) {
     dispatch(questionRequestFail(e)); // Em caso de falha, irá disparar esse erro.
   }
