@@ -56,6 +56,7 @@ export const questionRequestAPI = (token) => async (dispatch) => { // Despacha p
   try {
     const request = await questionAPI(token); // Pesquisa na URL a moeda
     dispatch(questionRequestSucess(request)); // Caso ache, ela entrará aqui e retorna-rá a moeda escolhida
+    return request;
   } catch (e) {
     dispatch(questionRequestFail(e)); // Em caso de falha, irá disparar esse erro.
   }

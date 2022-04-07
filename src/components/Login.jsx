@@ -15,8 +15,12 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { tokenDispatch } = this.props;
+    tokenDispatch();
+  }
+
   inputLogin = () => {
-    const { tokenDispatch, token, userName, requestQuestion, history } = this.props;
     const { email, name } = this.state;
     return (
       <form>
@@ -44,21 +48,14 @@ class Login extends React.Component {
             required
           />
         </label>
-        {/* <Link to="/jogo"> */}
         <button
           data-testid="btn-play"
           type="button"
           disabled={ this.validateEmail() }
-          onClick={ () => {
-            tokenDispatch().then(() => requestQuestion(token))
-              .then(() => this.setState({ redirect: true }));
-            userName(name, email);
-            // requestQuestion(token);
-          } }
+          onClick={ this.redirectPage }
         >
           Play
         </button>
-        {/* </Link> */}
         <Link to="/configuracoes">
           <button
             data-testid="btn-settings"
@@ -81,15 +78,22 @@ class Login extends React.Component {
     );
   }
 
-  test = () => {
+  redirectPage = async () => {
+    const { token, userName, requestQuestion } = this.props;
+    const { name, email } = this.state;
 
+    const tokenState = await requestQuestion(token);
+    userName(name, email);
+
+    if (tokenState.results.length > 0) {
+      this.setState({ redirect: true });
+    }
   }
 
   // Fonte do regex https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
 
   validateEmail() {
     const { email, name } = this.state;
-    // const valueComparationPassword = 6;
     const re = /\S+@\S+\.\S+/;
     if (re.test(email) && name !== '') {
       return false;
