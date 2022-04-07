@@ -21,7 +21,14 @@ class Jogo extends Component {
     return (
       <div>
         <h1 data-testid="question-category">{results[index].category}</h1>
-        <h3 data-testid="question-text">{results[index].question}</h3>
+        <h3 data-testid="question-text">
+          {results[index].question
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"')
+            .replace(/&#039;/g, '\'') }
+        </h3>
         {
           results[index].incorrect_answers.map((incorrect, position) => (
             <button
@@ -54,8 +61,10 @@ class Jogo extends Component {
   }
 
   test = () => {
+    const { results } = this.props;
     const { index } = this.state;
-    this.setState((previousValue) => ({ index: previousValue.index + 1 })); // Função conjunta para aumentar o valor do ID
+    if (results.length - 1 !== index
+    && this.setState((previousValue) => ({ index: previousValue.index + 1 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
     console.log(index);
   }
 
