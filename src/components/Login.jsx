@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
-import { setUser, tokenRequestAPI } from '../actions';
+import { questionRequestAPI, setUser, tokenRequestAPI } from '../actions';
 
 class Login extends React.Component {
   constructor() {
@@ -10,11 +11,16 @@ class Login extends React.Component {
     this.state = {
       name: '',
       email: '',
+      redirect: false,
     };
   }
 
+  componentDidMount() {
+    const { tokenDispatch } = this.props;
+    tokenDispatch();
+  }
+
   inputLogin = () => {
-    const { token, userName } = this.props;
     const { email, name } = this.state;
     return (
       <form>
@@ -42,19 +48,14 @@ class Login extends React.Component {
             required
           />
         </label>
-        <Link to="/jogo">
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ this.validateEmail() }
-            onClick={ () => {
-              token();
-              userName(name, email);
-            } }
-          >
-            Play
-          </button>
-        </Link>
+        <button
+          data-testid="btn-play"
+          type="button"
+          disabled={ this.validateEmail() }
+          onClick={ this.redirectPage }
+        >
+          Play
+        </button>
         <Link to="/configuracoes">
           <button
             data-testid="btn-settings"
@@ -77,11 +78,22 @@ class Login extends React.Component {
     );
   }
 
+  redirectPage = async () => {
+    const { token, userName, requestQuestion } = this.props;
+    const { name, email } = this.state;
+
+    const tokenState = await requestQuestion(token);
+    userName(name, email);
+
+    if (tokenState.results.length > 0) {
+      this.setState({ redirect: true });
+    }
+  }
+
   // Fonte do regex https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
 
   validateEmail() {
     const { email, name } = this.state;
-    // const valueComparationPassword = 6;
     const re = /\S+@\S+\.\S+/;
     if (re.test(email) && name !== '') {
       return false;
@@ -90,20 +102,26 @@ class Login extends React.Component {
   }
 
   render() {
+    const { redirect } = this.state;
     return (
-      <>
-        { this.inputLogin() }
-      </>
+      redirect ? <Redirect to="/jogo" /> : this.inputLogin()
     );
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({ // dispatch do User
-  token: () => dispatch(tokenRequestAPI()),
-  userName: (nameUser, email) => dispatch(setUser(nameUser, email)),
+const mapStateToProps = (state) => ({
+  token: state.token,
+  results: state.questions.results,
 });
+
+const mapDispatchToProps = (dispatch) => ({ // dispatch do User
+  tokenDispatch: () => dispatch(tokenRequestAPI()),
+  userName: (nameUser, email) => dispatch(setUser(nameUser, email)),
+  requestQuestion: (token) => dispatch(questionRequestAPI(token)),
+});
+
 Login.propTypes = {
   token: PropTypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
