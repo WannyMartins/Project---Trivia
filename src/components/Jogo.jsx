@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tokenRequestAPI } from '../actions';
 import Header from './Header';
+import './Jogo.css';
 
 const magic = 0.5;
 
@@ -23,7 +24,6 @@ class Jogo extends Component {
     const incorrectAnswers = (results[index].incorrect_answers);
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
     allAnswers.sort(() => Math.random() - magic);
-    console.log(allAnswers);
     return (
       <div>
         <h1 data-testid="question-category">{results[index].category}</h1>
@@ -35,7 +35,7 @@ class Jogo extends Component {
             .replace(/&quot;/g, '"')
             .replace(/&#039;/g, '\'')}
         </h3>
-        <div data-testid="answer-options">
+        <div data-testid="answer-options" className="answer-options">
           {
             allAnswers.map((answer, position) => (
               correctAnswer.includes(answer)
@@ -44,7 +44,8 @@ class Jogo extends Component {
                     type="button"
                     key={ position }
                     data-testid="correct-answer"
-                    className="green-border"
+                    className="correct-answer"
+                    onClick={ this.selectAnswer }
                   >
                     {
                       answer
@@ -60,7 +61,8 @@ class Jogo extends Component {
                     type="button"
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
-                    className="red-border"
+                    className="wrong-answer"
+                    onClick={ this.selectAnswer }
                   >
                     {answer
                       .replace(/&amp;/g, '&')
@@ -94,6 +96,16 @@ class Jogo extends Component {
     if (index === numberQuestion) { this.setState({ disableButton: true }); }
     console.log(index);
   };
+
+  selectAnswer = () => {
+    const correctButton = document.querySelector('.correct-answer');
+    const wrongButton = document.querySelectorAll('.wrong-answer');
+    console.log(correctButton, wrongButton);
+    wrongButton.forEach((element) => {
+      element.className = 'red-border';
+    });
+    correctButton.className = 'green-border';
+  }
 
   render() {
     const { results } = this.props;
