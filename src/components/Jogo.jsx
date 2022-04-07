@@ -44,7 +44,7 @@ class Jogo extends Component {
                     type="button"
                     key={ position }
                     data-testid="correct-answer"
-                    className="buttons"
+                    className="green-border"
                   >
                     {
                       answer
@@ -60,7 +60,7 @@ class Jogo extends Component {
                     type="button"
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
-                    className="buttons"
+                    className="red-border"
                   >
                     {answer
                       .replace(/&amp;/g, '&')
