@@ -5,3 +5,11 @@
 .red-border {
   border: 3px solid red;
 }
+
+.btn-next-hide {
+  display: none;
+}
+
+.btn-next {
+  display: block;
+}

@@ -1,4 +1,4 @@
-import { SET_USERNAME_EMAIL } from '../actions';
+import { ASSERTIONS_COUNT, SCORE_COUNT, SET_USERNAME_EMAIL } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -15,7 +15,16 @@ const player = (state = INITIAL_STATE, action) => {
       name: action.name,
       gravatarEmail: action.gravatarEmail,
     };
-
+  case SCORE_COUNT:
+    return {
+      ...state,
+      score: action.score,
+    };
+  case ASSERTIONS_COUNT:
+    return {
+      ...state,
+      assertions: action.assertions,
+    };
   default:
     return state;
   }

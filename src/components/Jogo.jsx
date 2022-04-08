@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { tokenRequestAPI } from '../actions';
+import { changeButtonNextValue, changeColorButtons, countAssertions, countScore, tokenRequestAPI } from '../actions';
 import Header from './Header';
 import './Jogo.css';
 import Timer from './Timer';
@@ -14,14 +14,14 @@ class Jogo extends Component {
 
     this.state = {
       index: 0,
-      disableNextButton: false,
-      disableAnswerButton: false,
+      assertion: 0,
+      funcScore: 0,
     };
   }
 
   renderQuestion = () => {
-    const { results } = this.props;
-    const { index, disableNextButton, disableAnswerButton } = this.state;
+    const { results, nextButtonHide, colorAnswerButtons } = this.props;
+    const { index } = this.state;
     const correctAnswer = results[index].correct_answer;
     const incorrectAnswers = (results[index].incorrect_answers);
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
@@ -45,10 +45,11 @@ class Jogo extends Component {
                   <button
                     type="button"
                     key={ position }
+                    name="correct"
                     data-testid="correct-answer"
-                    className="correct-answer"
-                    disabled={ disableAnswerButton }
-                    onClick={ () => this.selectAnswer() }
+                    className={ colorAnswerButtons ? 'green-border' : '' }
+                    disabled={ colorAnswerButtons }
+                    onClick={ this.selectAnswer }
                   >
                     {
                       answer
@@ -64,9 +65,9 @@ class Jogo extends Component {
                     type="button"
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
-                    className="wrong-answer"
-                    disabled={ disableAnswerButton }
-                    onClick={ () => this.selectAnswer() }
+                    className={ colorAnswerButtons ? 'red-border' : '' }
+                    disabled={ colorAnswerButtons }
+                    onClick={ this.selectAnswer }
                   >
                     {answer
                       .replace(/&amp;/g, '&')
@@ -80,8 +81,8 @@ class Jogo extends Component {
         </div>
         <button
           type="button"
-          data-testid="next-button"
-          disabled={ disableNextButton }
+          className={ nextButtonHide ? 'btn-next-hide' : 'btn-next' }
+          data-testid="btn-next"
           onClick={ this.nextQuestion }
         >
           NEXT
@@ -92,29 +93,72 @@ class Jogo extends Component {
   }
 
   nextQuestion = () => {
-    const { results } = this.props;
+    const { results,
+      changeValue,
+      nextButtonHide,
+      changeColors,
+      colorAnswerButtons } = this.props;
     const { index } = this.state;
-    const numberQuestion = 3;
     if (results.length - 1 !== index
-      && this.setState((previousValue) => ({ index: previousValue.index + 1 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
-    if (index === numberQuestion) { this.setState({ disableNextButton: true }); }
+      && this.setState((previousValue) => (
+        { index: previousValue.index + 1 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
+    changeValue(nextButtonHide);
+    changeColors(colorAnswerButtons);
   };
 
-  selectAnswer = () => {
-    const correctButton = document.querySelector('.correct-answer');
-    const wrongButton = document.querySelectorAll('.wrong-answer');
-    wrongButton.forEach((element) => {
-      element.className = 'red-border';
-    });
-    correctButton.className = 'green-border';
+  selectAnswer = (event) => {
+    // console.log(event.target.name);
+    const timer = 30;
+    const oneAssert = 10;
+    const easy = 1;
+    const medium = 2;
+    const hard = 3;
+    const { assertion, funcScore, index } = this.state;
+    const {
+      results,
+      scoreCount, assert,
+      changeValue, nextButtonHide,
+      changeColors, colorAnswerButtons,
+
+    } = this.props;
+    changeValue(nextButtonHide);
+    changeColors(colorAnswerButtons);
+    if (event.target.name === 'correct') {
+      this.setState((prev) => ({ assertion: prev.assertion + 1 }));
+      if (results[index].difficulty === 'easy') {
+        this.setState((prevScore) => (
+          { funcScore: prevScore.funcScore + (oneAssert + (timer * easy)) }
+        ));
+      } if (results[index].difficulty === 'medium') {
+        this.setState((prevScore) => (
+          { funcScore: prevScore.funcScore + (oneAssert + (timer * medium)) }
+        ));
+      } if (results[index].difficulty === 'hard') {
+        this.setState((prevScore) => (
+          { funcScore: prevScore.funcScore + (oneAssert + (timer * hard)) }
+        ));
+      }
+    }
+    assert(assertion);
+    scoreCount(funcScore);
   }
 
   render() {
-    const { results } = this.props;
+    const { results, assertions, score } = this.props;
     return (
       <>
         <Header />
         <Timer disableButtons={ this.selectAnswer } />
+        <p>
+          Acertos:
+          {' '}
+          { assertions }
+        </p>
+        <p>
+          Score:
+          {' '}
+          { score }
+        </p>
         {results !== undefined && this.renderQuestion()}
       </>
     );
@@ -122,14 +166,32 @@ class Jogo extends Component {
 }
 Jogo.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
+  assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  changeValue: PropTypes.func.isRequired,
+  nextButtonHide: PropTypes.bool.isRequired,
+  changeColors: PropTypes.func.isRequired,
+  colorAnswerButtons: PropTypes.bool.isRequired,
+  assert: PropTypes.func.isRequired,
+  scoreCount: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
   token: state.token,
-  results: state.questions.results,
+  results: state.questions.results.results,
+  nextButtonHide: state.questions.nextButtonHide,
+  colorAnswerButtons: state.questions.colorAnswerButtons,
+  assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   requestToken: () => dispatch(tokenRequestAPI()),
+  changeValue: (nextButtonHide) => {
+    dispatch(changeButtonNextValue(nextButtonHide));
+  },
+  changeColors: (colorsButton) => dispatch(changeColorButtons(colorsButton)),
+  assert: (assertion) => dispatch(countAssertions(assertion)),
+  scoreCount: (score) => dispatch(countScore(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Jogo);
