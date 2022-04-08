@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { tokenRequestAPI } from '../actions';
 import Header from './Header';
 import './Jogo.css';
+import Timer from './Timer';
 
 const magic = 0.5;
 
@@ -13,13 +14,14 @@ class Jogo extends Component {
 
     this.state = {
       index: 0,
-      disableButton: false,
+      disableNextButton: false,
+      disableAnswerButton: false,
     };
   }
 
   renderQuestion = () => {
     const { results } = this.props;
-    const { index, disableButton } = this.state;
+    const { index, disableNextButton, disableAnswerButton } = this.state;
     const correctAnswer = results[index].correct_answer;
     const incorrectAnswers = (results[index].incorrect_answers);
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
@@ -38,14 +40,15 @@ class Jogo extends Component {
         <div data-testid="answer-options" className="answer-options">
           {
             allAnswers.map((answer, position) => (
-              correctAnswer.includes(answer)
+              correctAnswer === answer
                 ? (
                   <button
                     type="button"
                     key={ position }
                     data-testid="correct-answer"
                     className="correct-answer"
-                    onClick={ this.selectAnswer }
+                    disabled={ disableAnswerButton }
+                    onClick={ () => this.selectAnswer() }
                   >
                     {
                       answer
@@ -62,7 +65,8 @@ class Jogo extends Component {
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
                     className="wrong-answer"
-                    onClick={ this.selectAnswer }
+                    disabled={ disableAnswerButton }
+                    onClick={ () => this.selectAnswer() }
                   >
                     {answer
                       .replace(/&amp;/g, '&')
@@ -77,7 +81,7 @@ class Jogo extends Component {
         <button
           type="button"
           data-testid="next-button"
-          disabled={ disableButton }
+          disabled={ disableNextButton }
           onClick={ this.nextQuestion }
         >
           NEXT
@@ -93,14 +97,12 @@ class Jogo extends Component {
     const numberQuestion = 3;
     if (results.length - 1 !== index
       && this.setState((previousValue) => ({ index: previousValue.index + 1 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
-    if (index === numberQuestion) { this.setState({ disableButton: true }); }
-    console.log(index);
+    if (index === numberQuestion) { this.setState({ disableNextButton: true }); }
   };
 
   selectAnswer = () => {
     const correctButton = document.querySelector('.correct-answer');
     const wrongButton = document.querySelectorAll('.wrong-answer');
-    console.log(correctButton, wrongButton);
     wrongButton.forEach((element) => {
       element.className = 'red-border';
     });
@@ -109,18 +111,16 @@ class Jogo extends Component {
 
   render() {
     const { results } = this.props;
-    // console.log(results);
     return (
       <>
         <Header />
+        <Timer disableButtons={ this.selectAnswer } />
         {results !== undefined && this.renderQuestion()}
       </>
     );
   }
 }
 Jogo.propTypes = {
-  // token: PropTypes.string.isRequired,
-  // requestQuestion: PropTypes.func.isRequired,
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 const mapStateToProps = (state) => ({
