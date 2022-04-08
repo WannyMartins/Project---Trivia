@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { changeButtonNextValue, changeColorButtons } from '../actions';
 
 class Timer extends Component {
   constructor() {
@@ -23,21 +25,17 @@ class Timer extends Component {
 
   timerQuestion = () => {
     const { timer } = this.state;
-    const { disableButtons } = this.props;
+    const { changeValue, changeColors, nextButtonHide, colorAnswerButtons } = this.props;
     const oneSecond = 1000;
     const timeOut = setTimeout(() => {
       this.setState({
         timer: timer - 1,
       });
     }, oneSecond);
-    if (timer === 0 && document.querySelector('.correct-answer') !== null) {
-      disableButtons();
-      const correctButton = document.querySelector('.green-border');
-      const wrongButton = document.querySelectorAll('.red-border');
-      correctButton.disabled = true;
-      wrongButton.forEach((element) => {
-        element.disabled = true;
-      });
+    if (timer === 0) {
+      console.log(timer);
+      changeValue(nextButtonHide);
+      changeColors(colorAnswerButtons);
     }
     if (timer === 0) { clearTimeout(timeOut); }
   }
@@ -52,8 +50,23 @@ class Timer extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  nextButtonHide: state.questions.nextButtonHide,
+  colorAnswerButtons: state.questions.colorAnswerButtons,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  changeValue: (nextButtonHide) => {
+    dispatch(changeButtonNextValue(nextButtonHide));
+  },
+  changeColors: (colorsButton) => dispatch(changeColorButtons(colorsButton)),
+});
+
 Timer.propTypes = {
-  disableButtons: PropTypes.func.isRequired,
+  changeValue: PropTypes.bool.isRequired,
+  nextButtonHide: PropTypes.func.isRequired,
+  changeColors: PropTypes.bool.isRequired,
+  colorAnswerButtons: PropTypes.func.isRequired,
 };
 
-export default Timer;
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);
