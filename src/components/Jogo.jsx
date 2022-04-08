@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { changeButtonNextValue, changeColorButtons, countAssertions, countScore, tokenRequestAPI } from '../actions';
 import Header from './Header';
 import './Jogo.css';
@@ -87,6 +88,14 @@ class Jogo extends Component {
         >
           NEXT
         </button>
+        <Link to="/">
+          <button
+            type="button"
+          >
+            Inicio
+          </button>
+        </Link>
+
       </div>
 
     );

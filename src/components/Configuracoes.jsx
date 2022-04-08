@@ -13,7 +13,6 @@ class Configuracoes extends React.Component {
             Inicio
           </button>
         </Link>
-
       </header>
     );
   }
