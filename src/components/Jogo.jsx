@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { changeButtonNextValue, changeColorButtons, countAssertions, countScore, tokenRequestAPI } from '../actions';
 import Header from './Header';
 import './Jogo.css';
@@ -17,7 +15,19 @@ class Jogo extends Component {
       index: 0,
       assertion: 0,
       funcScore: 0,
+      timer: 30,
     };
+  }
+
+  componentDidMount() {
+    this.timerQuestion();
+  }
+
+  componentDidUpdate(_prevProps, prevState) {
+    const { timer } = this.state;
+    if (timer !== prevState.timer) {
+      this.timerQuestion();
+    }
   }
 
   renderQuestion = () => {
@@ -88,16 +98,7 @@ class Jogo extends Component {
         >
           NEXT
         </button>
-        <Link to="/">
-          <button
-            type="button"
-          >
-            Inicio
-          </button>
-        </Link>
-
       </div>
-
     );
   }
 
@@ -117,7 +118,7 @@ class Jogo extends Component {
 
   selectAnswer = (event) => {
     // console.log(event.target.name);
-    const timer = 30;
+    // const  = 30;
     const oneAssert = 10;
     const easy = 1;
     const medium = 2;
@@ -128,7 +129,7 @@ class Jogo extends Component {
       scoreCount, assert,
       changeValue, nextButtonHide,
       changeColors, colorAnswerButtons,
-
+      timer,
     } = this.props;
     changeValue(nextButtonHide);
     changeColors(colorAnswerButtons);
@@ -152,31 +153,57 @@ class Jogo extends Component {
     scoreCount(funcScore);
   }
 
-  render() {
-    const { results, assertions, score } = this.props;
-    return (
-      <>
-        <Header />
-        <Timer disableButtons={ this.selectAnswer } />
-        <p>
-          Acertos:
-          {' '}
-          { assertions }
-        </p>
-        <p>
-          Score:
-          {' '}
-          { score }
-        </p>
-        {results !== undefined && this.renderQuestion()}
-      </>
-    );
+  timerQuestion = () => {
+    const { timer } = this.state;
+    const {
+      changeValue, changeColors, nextButtonHide, colorAnswerButtons,
+    } = this.props;
+    const oneSecond = 1000;
+    const timeOut = setTimeout(() => {
+      this.setState({
+        timer: timer - 1,
+      });
+      console.log(timer);
+    }, oneSecond);
+    timerSet(timer);
+    if (timer === 0) {
+      console.log(timer);
+      changeValue(nextButtonHide);
+      changeColors(colorAnswerButtons);
+      clearTimeout(timeOut);
+    }
   }
+
+    clearTimer = (time) => {
+      clearTimeout(time);
+    };
+
+    render() {
+      const { results, assertions, score } = this.props;
+      return (
+        <>
+          <Header />
+          <Timer disableButtons={ this.selectAnswer } />
+          <p>
+            Acertos:
+            {' '}
+            {assertions}
+          </p>
+          <p>
+            Score:
+            {' '}
+            {score}
+          </p>
+          {results !== undefined && this.renderQuestion()}
+        </>
+      );
+    }
 }
 Jogo.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
+  timer: PropTypes.number.isRequired,
   changeValue: PropTypes.func.isRequired,
   nextButtonHide: PropTypes.bool.isRequired,
   changeColors: PropTypes.func.isRequired,
@@ -191,6 +218,7 @@ const mapStateToProps = (state) => ({
   colorAnswerButtons: state.questions.colorAnswerButtons,
   assertions: state.player.assertions,
   score: state.player.score,
+  timer: state.questions.timer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
