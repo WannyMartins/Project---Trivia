@@ -14,14 +14,12 @@ class Jogo extends Component {
 
     this.state = {
       index: 0,
-      disableNextButton: false,
-      disableAnswerButton: false,
     };
   }
 
   renderQuestion = () => {
     const { results } = this.props;
-    const { index, disableNextButton, disableAnswerButton } = this.state;
+    const { index, nextButtonHide, disableNextButton, disableAnswerButton } = this.state;
     const correctAnswer = results[index].correct_answer;
     const incorrectAnswers = (results[index].incorrect_answers);
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
@@ -46,7 +44,7 @@ class Jogo extends Component {
                     type="button"
                     key={ position }
                     data-testid="correct-answer"
-                    className="correct-answer"
+                    className={ disableAnswerButton ? 'green-border' : '' }
                     disabled={ disableAnswerButton }
                     onClick={ () => this.selectAnswer() }
                   >
@@ -65,7 +63,7 @@ class Jogo extends Component {
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
                     className="wrong-answer"
-                    disabled={ disableAnswerButton }
+                    disabled={ disableAnswerButton ? 'red-border' : '' }
                     onClick={ () => this.selectAnswer() }
                   >
                     {answer
@@ -80,7 +78,8 @@ class Jogo extends Component {
         </div>
         <button
           type="button"
-          data-testid="next-button"
+          className={ nextButtonHide ? 'btn-next-hide' : 'btn-next' }
+          data-testid="btn-next"
           disabled={ disableNextButton }
           onClick={ this.nextQuestion }
         >
@@ -101,12 +100,16 @@ class Jogo extends Component {
   };
 
   selectAnswer = () => {
-    const correctButton = document.querySelector('.correct-answer');
-    const wrongButton = document.querySelectorAll('.wrong-answer');
-    wrongButton.forEach((element) => {
-      element.className = 'red-border';
+    // const correctButton = document.querySelector('.correct-answer');
+    // const wrongButton = document.querySelectorAll('.wrong-answer');
+    // wrongButton.forEach((element) => {
+    //   element.className = 'red-border';
+    // });
+    // correctButton.className = 'green-border';
+    this.setState({
+      disableAnswerButton: true,
+      nextButtonHide: false,
     });
-    correctButton.className = 'green-border';
   }
 
   render() {
@@ -125,7 +128,7 @@ Jogo.propTypes = {
 };
 const mapStateToProps = (state) => ({
   token: state.token,
-  results: state.questions.results,
+  results: state.questions.results.results,
 });
 
 const mapDispatchToProps = (dispatch) => ({
