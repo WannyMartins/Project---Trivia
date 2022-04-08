@@ -107,6 +107,12 @@ class Jogo extends Component {
       element.className = 'red-border';
     });
     correctButton.className = 'green-border';
+    // const correctButton = document.querySelector('.correct-answer');
+    // const wrongButton = document.querySelectorAll('.wrong-answer');
+    // wrongButton.forEach((element) => {
+    //   element.className = 'red-border';
+    // });
+    // correctButton.className = 'green-border';
   }
 
   render() {

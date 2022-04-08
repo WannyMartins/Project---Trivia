@@ -35,7 +35,9 @@ class Timer extends Component {
       const correctButton = document.querySelector('.green-border');
       const wrongButton = document.querySelectorAll('.red-border');
       correctButton.disabled = true;
-      wrongButton.disabled = true;
+      wrongButton.forEach((element) => {
+        element.disabled = true;
+      });
     }
     if (timer === 0) { clearTimeout(timeOut); }
   }
