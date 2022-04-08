@@ -63,10 +63,10 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 Timer.propTypes = {
-  changeValue: PropTypes.bool.isRequired,
-  nextButtonHide: PropTypes.func.isRequired,
-  changeColors: PropTypes.bool.isRequired,
-  colorAnswerButtons: PropTypes.func.isRequired,
+  changeValue: PropTypes.func.isRequired,
+  nextButtonHide: PropTypes.bool.isRequired,
+  changeColors: PropTypes.func.isRequired,
+  colorAnswerButtons: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);

@@ -46,7 +46,7 @@ class Jogo extends Component {
                     data-testid="correct-answer"
                     className={ colorAnswerButtons ? 'green-border' : '' }
                     disabled={ colorAnswerButtons }
-                    onClick={ () => this.selectAnswer() }
+                    onClick={ this.selectAnswer }
                   >
                     {
                       answer
@@ -64,7 +64,7 @@ class Jogo extends Component {
                     data-testid={ `wrong-answer-${position}` }
                     className={ colorAnswerButtons ? 'red-border' : '' }
                     disabled={ colorAnswerButtons }
-                    onClick={ () => this.selectAnswer() }
+                    onClick={ this.selectAnswer }
                   >
                     {answer
                       .replace(/&amp;/g, '&')
@@ -103,7 +103,8 @@ class Jogo extends Component {
     changeColors(colorAnswerButtons);
   };
 
-  selectAnswer = () => {
+  selectAnswer = (event) => {
+    console.log(event.target);
     const { changeValue, nextButtonHide, changeColors, colorAnswerButtons } = this.props;
     changeValue(nextButtonHide);
     changeColors(colorAnswerButtons);
@@ -122,10 +123,10 @@ class Jogo extends Component {
 }
 Jogo.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  changeValue: PropTypes.bool.isRequired,
-  nextButtonHide: PropTypes.func.isRequired,
-  changeColors: PropTypes.bool.isRequired,
-  colorAnswerButtons: PropTypes.func.isRequired,
+  changeValue: PropTypes.func.isRequired,
+  nextButtonHide: PropTypes.bool.isRequired,
+  changeColors: PropTypes.func.isRequired,
+  colorAnswerButtons: PropTypes.bool.isRequired,
 };
 const mapStateToProps = (state) => ({
   token: state.token,
