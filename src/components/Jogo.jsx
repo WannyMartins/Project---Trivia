@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { changeButtonNextValue, changeColorButtons, countAssertions, countScore, tokenRequestAPI } from '../actions';
 import Header from './Header';
 import './Jogo.css';
@@ -165,7 +166,7 @@ class Jogo extends Component {
       });
       console.log(timer);
     }, oneSecond);
-    timerSet(timer);
+    // timerSet(timer);
     if (timer === 0) {
       console.log(timer);
       changeValue(nextButtonHide);
