@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { changeButtonNextValue, changeColorButtons, countAssertions, countScore, tokenRequestAPI } from '../actions';
 import Header from './Header';
 import './Jogo.css';
-import Timer from './Timer';
 
 const magic = 0.5;
 
@@ -17,18 +16,17 @@ class Jogo extends Component {
       assertion: 0,
       funcScore: 0,
       timer: 30,
+      click: 0, // Estado de clique para saber se algo foi clicado, utilizado no timer e no botão.
     };
   }
 
   componentDidMount() {
-    this.timerQuestion();
+    this.timerQuestion(); // Invoca a função no DidMount para atualizar
   }
 
   componentDidUpdate(_prevProps, prevState) {
     const { timer } = this.state;
-    if (timer !== prevState.timer) {
-      this.timerQuestion();
-    }
+    if (timer !== prevState.timer) { this.timerQuestion(); }
   }
 
   renderQuestion = () => {
@@ -75,6 +73,7 @@ class Jogo extends Component {
                 : (
                   <button
                     type="button"
+                    name="incorrect"
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
                     className={ colorAnswerButtons ? 'red-border' : '' }
@@ -112,99 +111,88 @@ class Jogo extends Component {
     const { index } = this.state;
     if (results.length - 1 !== index
       && this.setState((previousValue) => (
-        { index: previousValue.index + 1 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
+        { index: previousValue.index + 1, timer: 30, click: 0 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
     changeValue(nextButtonHide);
     changeColors(colorAnswerButtons);
   };
 
   selectAnswer = (event) => {
-    // console.log(event.target.name);
-    // const  = 30;
     const oneAssert = 10;
-    const easy = 1;
     const medium = 2;
     const hard = 3;
-    const { assertion, funcScore, index } = this.state;
-    const {
-      results,
-      scoreCount, assert,
-      changeValue, nextButtonHide,
-      changeColors, colorAnswerButtons,
-      timer,
+    const { index, timer } = this.state;
+    const { results, changeValue, nextButtonHide, changeColors, colorAnswerButtons,
     } = this.props;
     changeValue(nextButtonHide);
     changeColors(colorAnswerButtons);
-    if (event.target.name === 'correct') {
-      this.setState((prev) => ({ assertion: prev.assertion + 1 }));
-      if (results[index].difficulty === 'easy') {
+    if (event.target.name === 'correct') { // Caso o name do input seja 'correct' entrará nas validações a seguir
+      this.setState((prev) => ({ assertion: prev.assertion + 1 })); // Soma as quantidades de acertos
+      if (results[index].difficulty === 'easy') { // Caso o nível de dificuldade da questão seja easy, realiza o calculo
         this.setState((prevScore) => (
-          { funcScore: prevScore.funcScore + (oneAssert + (timer * easy)) }
+          { funcScore: prevScore.funcScore + oneAssert + timer }
         ));
-      } if (results[index].difficulty === 'medium') {
+      } if (results[index].difficulty === 'medium') { // Caso o nível de dificuldade da questão seja medium, realiza o calculo
         this.setState((prevScore) => (
-          { funcScore: prevScore.funcScore + (oneAssert + (timer * medium)) }
+          { funcScore: prevScore.funcScore + oneAssert + (timer * medium) }
         ));
-      } if (results[index].difficulty === 'hard') {
+      } if (results[index].difficulty === 'hard') { // Caso o nível de dificuldade da questão seja hard, realiza o calculo
         this.setState((prevScore) => (
-          { funcScore: prevScore.funcScore + (oneAssert + (timer * hard)) }
+          { funcScore: prevScore.funcScore + oneAssert + (timer * hard) }
         ));
       }
     }
-    assert(assertion);
-    scoreCount(funcScore);
+    if (event.target.name === 'correct' || event.target.name === 'incorrect') { // Função para saber se algum dos botões foi clicado
+      this.setState({ click: 1 }); // Caso clicado, altera o valor do click para 1, valor será utilizado posteriormente no timerQuestion.
+    }
   }
 
   timerQuestion = () => {
-    const { timer } = this.state;
+    const { timer, click } = this.state;
+    const { assertion, funcScore } = this.state;
     const {
-      changeValue, changeColors, nextButtonHide, colorAnswerButtons,
+      changeValue, changeColors, nextButtonHide, colorAnswerButtons, scoreCount, assert,
     } = this.props;
     const oneSecond = 1000;
     const timeOut = setTimeout(() => {
-      this.setState({
-        timer: timer - 1,
-      });
-      console.log(timer);
+      if (click === 0) { this.setState({ timer: timer - 1 }); } // Caso o clique tenha valor 0, ele continua no loop
     }, oneSecond);
-    // timerSet(timer);
-    if (timer === 0) {
-      console.log(timer);
-      changeValue(nextButtonHide);
-      changeColors(colorAnswerButtons);
+    if (timer === 0 || click === 1) { // Após ter o valor do clique alterado para um, ele entrará nessa condição.
+      changeValue(nextButtonHide); changeColors(colorAnswerButtons);
       clearTimeout(timeOut);
     }
+    assert(assertion); scoreCount(funcScore); // A cada segundo ele atualiza o estado global do redux de score e acertos.
   }
 
-    clearTimer = (time) => {
-      clearTimeout(time);
-    };
-
-    render() {
-      const { results, assertions, score } = this.props;
-      return (
-        <>
-          <Header />
-          <Timer disableButtons={ this.selectAnswer } />
-          <p>
-            Acertos:
-            {' '}
-            {assertions}
-          </p>
-          <p>
-            Score:
-            {' '}
-            {score}
-          </p>
-          {results !== undefined && this.renderQuestion()}
-        </>
-      );
-    }
+  render() {
+    const { timer } = this.state;
+    const { results, assertions, score } = this.props;
+    return (
+      <>
+        <Header />
+        <p>
+          {' '}
+          {timer}
+          {' '}
+        </p>
+        <p>
+          Acertos:
+          {' '}
+          {assertions}
+        </p>
+        <p>
+          Score:
+          {' '}
+          {score}
+        </p>
+        {results !== undefined && this.renderQuestion()}
+      </>
+    );
+  }
 }
 Jogo.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
-  timer: PropTypes.number.isRequired,
   changeValue: PropTypes.func.isRequired,
   nextButtonHide: PropTypes.bool.isRequired,
   changeColors: PropTypes.func.isRequired,

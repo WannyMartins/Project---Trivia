@@ -33,7 +33,7 @@ class Timer extends Component {
       this.setState({
         timer: timer - 1,
       });
-      console.log(timer);
+      // console.log(timer);
     }, oneSecond);
     // timerSet(timer);
     if (timer === 0) {
