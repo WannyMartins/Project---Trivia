@@ -186,7 +186,7 @@ describe('8 - [TELA DE JOGO] Desenvolva um timer onde a pessoa que joga tem 30 s
   });
 });
 
-describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', () => {
+describe.only('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/', {
       onBeforeLoad(win) {
@@ -199,7 +199,7 @@ describe('9 - [TELA DE JOGO] Crie o placar com as seguintes características:', 
     cy.get(HEADER_SCORE_SELECTOR);
   });
 
-   it('Será validado se os pontos são somados ao acertar uma questão', () => {
+  it('Será validado se os pontos são somados ao acertar uma questão', () => {
     let lastScore;
     cy.window().its('store').invoke('getState').then((state) => {
       lastScore = state.player.score;
@@ -252,7 +252,7 @@ describe('10 - [TELA DE JOGO] Crie um botão de "Next" que apareça após a resp
   });
 });
 
-describe.only('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga deve responder 5 perguntas no total', () => {
+describe('11 - [TELA DE JOGO] Desenvolva o jogo de forma que a pessoa que joga deve responder 5 perguntas no total', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/', {
       onBeforeLoad(win) {

@@ -1,20 +1,40 @@
 import { questionAPI, tokenAPI } from './API';
 
-export const REQUEST_API_TOKEN = 'REQUEST_API_TOKEN';
-export const REQUEST_API_TOKEN_SUCESS = 'REQUEST_API_TOKEN_SUCESS';
-export const REQUEST_API_TOKEN_FAIL = 'REQUEST_API_TOKEN_FAIL';
 export const SET_USERNAME_EMAIL = 'SET_USERNAME_EMAIL';
-export const REQUEST_API_QUESTION = 'REQUEST_API_QUESTION';
-export const REQUEST_API_QUESTION_SUCESS = 'REQUEST_API_QUESTION_SUCESS';
-export const REQUEST_API_QUESTION_FAIL = 'REQUEST_API_QUESTION_FAIL';
+export const SCORE_COUNT = 'SCORE_COUNT';
+export const ASSERTIONS_COUNT = 'ASSERTIONS_COUNT';
+export const TIMER_SET = 'TIMER_SET';
+
 export const CHANGE_BUTTON_NEXT_VALUE = 'CHANGE_BUTTON_NEXT_VALUE';
 export const CHANGE_BUTTONS_COLOR = 'CHANGE_BUTTONS_COLOR';
 export const DISABLE_BUTTONS_ANSWER = 'DISABLE_BUTTONS_ANSWER';
+
+export const REQUEST_API_TOKEN = 'REQUEST_API_TOKEN';
+export const REQUEST_API_TOKEN_SUCESS = 'REQUEST_API_TOKEN_SUCESS';
+export const REQUEST_API_TOKEN_FAIL = 'REQUEST_API_TOKEN_FAIL';
+export const REQUEST_API_QUESTION = 'REQUEST_API_QUESTION';
+export const REQUEST_API_QUESTION_SUCESS = 'REQUEST_API_QUESTION_SUCESS';
+export const REQUEST_API_QUESTION_FAIL = 'REQUEST_API_QUESTION_FAIL';
 
 export const setUser = (name, gravatarEmail) => ({ // Função para pegar o email e nome do usuário
   type: SET_USERNAME_EMAIL,
   name,
   gravatarEmail, // O parâmetro passado precisa ter o mesmo nome usado no reducer.
+});
+
+export const countScore = (score) => ({
+  type: SCORE_COUNT,
+  score,
+});
+
+export const countAssertions = (assertions) => ({
+  type: ASSERTIONS_COUNT,
+  assertions,
+});
+
+export const countTimer = (timer) => ({
+  type: TIMER_SET,
+  timer,
 });
 
 export const tokenRequest = () => ({ // Função para complementar a requisição da API
