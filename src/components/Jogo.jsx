@@ -110,17 +110,20 @@ class Jogo extends Component {
     const oneAssert = 10; const medium = 2; const hard = 3;
     const { index, timer } = this.state;
     const { results, changeValue, nextButtonHide, changeColors, colorAnswerButtons,
+      scoreCount,
     } = this.props;
+    let scoreTeste = 0;
     if (event.target.name === 'correct') { // Caso o name do input seja 'correct' entrará nas validações a seguir
       this.setState((prev) => ({ assertion: prev.assertion + 1 })); // Soma as quantidades de acertos
       if (results[index].difficulty === 'easy') { // Caso o nível de dificuldade da questão seja easy, realiza o calculo
-        this.setState((preScr) => ({ funcScore: preScr.funcScore + oneAssert + timer }));
+        scoreTeste = scoreTeste + oneAssert + timer;
+        scoreCount(scoreTeste);
       } if (results[index].difficulty === 'medium') { // Caso o nível de dificuldade da questão seja medium, realiza o calculo
-        this.setState((preScr) => (
-          { funcScore: preScr.funcScore + oneAssert + (timer * medium) }));
+        scoreTeste = scoreTeste + oneAssert + (timer * medium);
+        scoreCount(scoreTeste);
       } if (results[index].difficulty === 'hard') { // Caso o nível de dificuldade da questão seja hard, realiza o calculo
-        this.setState((preScr) => (
-          { funcScore: preScr.funcScore + oneAssert + (timer * hard) }));
+        scoreTeste = scoreTeste + oneAssert + (timer * hard);
+        scoreCount(scoreTeste);
       }
     }
     changeValue(nextButtonHide);
@@ -151,7 +154,7 @@ class Jogo extends Component {
 
   render() {
     const { timer } = this.state;
-    const { results, assertions } = this.props;
+    const { results } = this.props;
     return (
       <>
         <Header />
@@ -160,11 +163,6 @@ class Jogo extends Component {
           {timer}
           {' '}
         </p>
-        <p>
-          Acertos:
-          {' '}
-          {assertions}
-        </p>
         {results !== undefined && this.renderQuestion()}
       </>
     );
@@ -172,7 +170,7 @@ class Jogo extends Component {
 }
 Jogo.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  assertions: PropTypes.number.isRequired,
+  // assertions: PropTypes.number.isRequired,
   // score: PropTypes.number.isRequired,
   changeValue: PropTypes.func.isRequired,
   nextButtonHide: PropTypes.bool.isRequired,
