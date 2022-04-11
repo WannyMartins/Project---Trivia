@@ -18,12 +18,12 @@ const player = (state = INITIAL_STATE, action) => {
   case SCORE_COUNT:
     return {
       ...state,
-      score: action.score,
+      score: action.score + state.score,
     };
   case ASSERTIONS_COUNT:
     return {
       ...state,
-      assertions: action.assertions,
+      assertions: action.assertions + state.assertions,
     };
   default:
     return state;

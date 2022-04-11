@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   changeButtonNextValue,
   changeColorButtons, countAssertions, countScore, tokenRequestAPI,
@@ -8,7 +9,8 @@ import {
 import Header from './Header';
 import './Jogo.css';
 
-const magic = 0.5;
+const randomizeButton = 0.5;
+const questionsNumber = 4;
 
 class Jogo extends Component {
   constructor() {
@@ -37,7 +39,7 @@ class Jogo extends Component {
     const correctAnswer = results[index].correct_answer;
     const incorrectAnswers = (results[index].incorrect_answers);
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
-    allAnswers.sort(() => Math.random() - magic);
+    allAnswers.sort(() => Math.random() - randomizeButton);
     return (
       <div>
         <h1 data-testid="question-category">{results[index].category}</h1>
@@ -86,14 +88,26 @@ class Jogo extends Component {
             ))
           }
         </div>
-        <button
-          type="button"
-          className={ nextButtonHide ? 'btn-next-hide' : 'btn-next' }
-          data-testid="btn-next"
-          onClick={ this.nextQuestion }
-        >
-          NEXT
-        </button>
+        { index !== questionsNumber ? (
+          <button
+            type="button"
+            className={ nextButtonHide ? 'btn-next-hide' : 'btn-next' }
+            data-testid="btn-next"
+            onClick={ this.nextQuestion }
+          >
+            NEXT
+          </button>)
+          : (
+            <Link to="/feedback">
+              <button
+                type="button"
+                className={ nextButtonHide ? 'btn-next-hide' : 'btn-next' }
+                data-testid="btn-next"
+                onClick={ this.nextQuestion }
+              >
+                NEXT
+              </button>
+            </Link>)}
       </div>
     );
   }
@@ -108,22 +122,22 @@ class Jogo extends Component {
 
   selectAnswer = (event) => {
     const oneAssert = 10; const medium = 2; const hard = 3;
-    const { index, timer } = this.state;
+    const { index, timer, assertion } = this.state;
     const { results, changeValue, nextButtonHide, changeColors, colorAnswerButtons,
-      scoreCount,
+      scoreCount, assert,
     } = this.props;
     let scoreTeste = 0;
     if (event.target.name === 'correct') { // Caso o name do input seja 'correct' entrará nas validações a seguir
       this.setState((prev) => ({ assertion: prev.assertion + 1 })); // Soma as quantidades de acertos
       if (results[index].difficulty === 'easy') { // Caso o nível de dificuldade da questão seja easy, realiza o calculo
         scoreTeste = scoreTeste + oneAssert + timer;
-        scoreCount(scoreTeste);
+        scoreCount(scoreTeste); assert(assertion);
       } if (results[index].difficulty === 'medium') { // Caso o nível de dificuldade da questão seja medium, realiza o calculo
         scoreTeste = scoreTeste + oneAssert + (timer * medium);
-        scoreCount(scoreTeste);
+        scoreCount(scoreTeste); assert(assertion);
       } if (results[index].difficulty === 'hard') { // Caso o nível de dificuldade da questão seja hard, realiza o calculo
         scoreTeste = scoreTeste + oneAssert + (timer * hard);
-        scoreCount(scoreTeste);
+        scoreCount(scoreTeste); assert(assertion);
       }
     }
     changeValue(nextButtonHide);

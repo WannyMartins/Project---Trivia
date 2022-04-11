@@ -1,21 +1,57 @@
-import React from 'react';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Header from './Header';
 
-class Feedback extends React.Component {
+class Feedback extends Component {
   render() {
+    const { score, assertions } = this.props;
+    console.log(assertions);
+    const minScore = 3;
     return (
-      <header>
-        <h1 data-testid="feedback-text">Feedback</h1>
+      <>
+        <Header />
+        <p data-testid="feedback-text">
+          {
+            assertions < minScore ? 'Could be better...' : 'Well Done!'
+          }
+        </p>
+        <p data-testid="feedback-total-score">
+          {score}
+        </p>
+        <p data-testid="feedback-total-question">
+          {assertions}
+        </p>
         <Link to="/">
           <button
             type="button"
+            data-testid="btn-play-again"
           >
-            Inicio
+            Play Again
           </button>
         </Link>
-      </header>
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+        </Link>
+      </>
     );
   }
 }
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+  assertions: state.player.assertions,
+});
+
+Feedback.propTypes = {
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+};
+
+export default connect(mapStateToProps)(Feedback);

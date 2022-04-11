@@ -42,9 +42,9 @@ class Timer extends Component {
       changeColors(colorAnswerButtons);
       clearTimeout(timeOut);
     }
-    const clearTimer = (time) => {
-      clearTimeout(time);
-    };
+    // const clearTimer = (time) => {
+    //   clearTimeout(time);
+    // };
   }
 
   render() {
