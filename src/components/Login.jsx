@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { questionRequestAPI, setUser, tokenRequestAPI } from '../actions';
+import './Login-Style.css';
 
 class Login extends React.Component {
   constructor() {
@@ -23,49 +24,58 @@ class Login extends React.Component {
   inputLogin = () => {
     const { email, name } = this.state;
     return (
-      <form>
-        <label id="email" htmlFor="email">
-          Email
-          <input
-            data-testid="input-gravatar-email"
-            type="text"
-            id="email"
-            name="email"
-            value={ email }
-            onChange={ this.handleInfo }
-            required
-          />
-        </label>
-        <label id="name" htmlFor="name">
-          Nome
-          <input
-            data-testid="input-player-name"
-            type="text"
-            id="name"
-            name="name"
-            value={ name }
-            onChange={ this.handleInfo }
-            required
-          />
-        </label>
-        <button
-          data-testid="btn-play"
-          type="button"
-          disabled={ this.validateEmail() }
-          onClick={ this.redirectPage }
-        >
-          Play
-        </button>
-        <Link to="/configuracoes">
-          <button
-            data-testid="btn-settings"
-            type="button"
-          >
-            Configurações
-          </button>
-        </Link>
-
-      </form>
+      <section className="card">
+        <form className="card__content">
+          <section className="Input-Login">
+            <label id="email" htmlFor="email">
+              Email
+              <input
+                data-testid="input-gravatar-email"
+                type="text"
+                id="email"
+                name="email"
+                value={ email }
+                onChange={ this.handleInfo }
+                required
+              />
+            </label>
+          </section>
+          <section className="Input-Login">
+            <label id="name" htmlFor="name">
+              Nome
+              <input
+                data-testid="input-player-name"
+                type="text"
+                id="name"
+                name="name"
+                value={ name }
+                onChange={ this.handleInfo }
+                required
+              />
+            </label>
+          </section>
+          <div className="buttons-login">
+            <button
+              className="button-login"
+              data-testid="btn-play"
+              type="button"
+              disabled={ this.validateEmail() }
+              onClick={ this.redirectPage }
+            >
+              Play
+            </button>
+            <Link to="/configuracoes">
+              <button
+                className="button-login"
+                data-testid="btn-settings"
+                type="button"
+              >
+                Configurações
+              </button>
+            </Link>
+          </div>
+        </form>
+      </section>
     );
   };
 

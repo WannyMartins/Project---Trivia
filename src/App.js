@@ -13,6 +13,8 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
+      </header>
+      <main className="App-main">
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/jogo" component={ Jogo } />
@@ -20,7 +22,7 @@ export default function App() {
           <Route exact path="/ranking" component={ Ranking } />
           <Route exact path="/feedback" component={ Feedback } />
         </Switch>
-      </header>
+      </main>
     </div>
   );
 }

@@ -1,3 +1,21 @@
+body, footer {
+  background: linear-gradient(344deg, rgba(40, 40, 55, 1) 0%, rgba(16, 16, 18, 1) 50%);
+  display: flex;
+
+  /* stylelint-disable-next-line font-family-name-quotes */
+  font-family: 'VT323' , monospace;
+  height: 100%;
+  justify-content: center;
+}
+
+.App-main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+}
+
 .App {
   text-align: center;
 }
@@ -16,13 +34,13 @@
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
   color: white;
   display: flex;
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 100vh;
+  min-height: 15%;
+  padding: 40px;
 }
 
 .App-link {

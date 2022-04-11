@@ -7,7 +7,7 @@ import {
   changeColorButtons, countAssertions, countScore, tokenRequestAPI,
 } from '../actions';
 import Header from './Header';
-import './Jogo.css';
+import './Jogo-Style.css';
 
 const randomizeButton = 0.5;
 const questionsNumber = 4;
@@ -41,7 +41,7 @@ class Jogo extends Component {
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
     allAnswers.sort(() => Math.random() - randomizeButton);
     return (
-      <div>
+      <div className="Game-Board glass">
         <h1 data-testid="question-category">{results[index].category}</h1>
         <h3 data-testid="question-text">
           {results[index].question
@@ -59,16 +59,18 @@ class Jogo extends Component {
                     key={ position }
                     name="correct"
                     data-testid="correct-answer"
-                    className={ colorAnswerButtons ? 'green-border' : '' }
+                    className={ colorAnswerButtons ? 'green-border' : 'test' }
                     disabled={ colorAnswerButtons }
                     onClick={ this.selectAnswer }
                   >
-                    {
-                      answer
-                        .replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-                        .replace(/&gt;/g, '>').replace(/&quot;/g, '"')
-                        .replace(/&#039;/g, '\'')
-                    }
+                    <span>
+                      {
+                        answer
+                          .replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+                          .replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+                          .replace(/&#039;/g, '\'')
+                      }
+                    </span>
                   </button>)
                 : (
                   <button
@@ -76,14 +78,16 @@ class Jogo extends Component {
                     name="incorrect"
                     key={ position }
                     data-testid={ `wrong-answer-${position}` }
-                    className={ colorAnswerButtons ? 'red-border' : '' }
+                    className={ colorAnswerButtons ? 'red-border' : 'test' }
                     disabled={ colorAnswerButtons }
                     onClick={ this.selectAnswer }
                   >
-                    {answer
-                      .replace(/&amp;/g, '&').replace(/&lt;/g, '<')
-                      .replace(/&gt;/g, '>').replace(/&quot;/g, '"')
-                      .replace(/&#039;/g, '\'')}
+                    <span>
+                      {answer
+                        .replace(/&amp;/g, '&').replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+                        .replace(/&#039;/g, '\'')}
+                    </span>
                   </button>)
             ))
           }
@@ -95,7 +99,9 @@ class Jogo extends Component {
             data-testid="btn-next"
             onClick={ this.nextQuestion }
           >
-            NEXT
+            <span>
+              NEXT
+            </span>
           </button>)
           : (
             <Link to="/feedback">
@@ -105,7 +111,9 @@ class Jogo extends Component {
                 data-testid="btn-next"
                 onClick={ this.nextQuestion }
               >
-                NEXT
+                <span>
+                  NEXT
+                </span>
               </button>
             </Link>)}
       </div>
@@ -172,8 +180,8 @@ class Jogo extends Component {
     return (
       <>
         <Header />
-        <p>
-          {' '}
+        <p className="timer glass">
+          Timer:
           {timer}
           {' '}
         </p>
