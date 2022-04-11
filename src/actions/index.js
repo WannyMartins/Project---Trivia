@@ -16,6 +16,8 @@ export const REQUEST_API_QUESTION = 'REQUEST_API_QUESTION';
 export const REQUEST_API_QUESTION_SUCESS = 'REQUEST_API_QUESTION_SUCESS';
 export const REQUEST_API_QUESTION_FAIL = 'REQUEST_API_QUESTION_FAIL';
 
+export const RESET_PLAYER = 'RESET_PLAYER';
+
 export const setUser = (name, gravatarEmail) => ({ // Função para pegar o email e nome do usuário
   type: SET_USERNAME_EMAIL,
   name,
@@ -93,4 +95,9 @@ export const changeButtonNextValue = (nextButtonHide) => ({
 export const changeColorButtons = (colorAnswerButtons) => ({
   type: CHANGE_BUTTONS_COLOR,
   colorAnswerButtons: !colorAnswerButtons,
+});
+
+export const resetPlayer = (objectReset) => ({
+  type: RESET_PLAYER,
+  objectReset,
 });
