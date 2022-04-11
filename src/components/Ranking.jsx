@@ -12,6 +12,9 @@ class Ranking extends Component {
     const userEmailHash = md5(email).toString();
     return (
       <div>
+        <h3 data-testid="ranking-title">
+          Ranking
+        </h3>
         <Link to="/">
           <button
             type="button"
