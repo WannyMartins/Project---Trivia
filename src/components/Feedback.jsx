@@ -7,13 +7,14 @@ import Header from './Header';
 class Feedback extends Component {
   render() {
     const { score, assertions } = this.props;
+    console.log(assertions);
     const minScore = 3;
     return (
       <>
         <Header />
         <p data-testid="feedback-text">
           {
-            score < minScore ? 'Could be better...' : 'Well Done!'
+            assertions < minScore ? 'Could be better...' : 'Well Done!'
           }
         </p>
         <p data-testid="feedback-total-score">
