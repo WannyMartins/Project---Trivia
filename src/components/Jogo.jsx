@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   changeButtonNextValue,
-  changeColorButtons,
-  countAssertions,
-  countScore, tokenRequestAPI
+  changeColorButtons, countAssertions, countScore, tokenRequestAPI,
 } from '../actions';
 import Header from './Header';
 import './Jogo.css';
