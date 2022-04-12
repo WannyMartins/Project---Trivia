@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { questionRequestAPI, setUser, tokenRequestAPI } from '../actions';
+import Ratalada from '../personalization/Ratalada';
 import './Login-Style.css';
 
 class Login extends React.Component {
@@ -114,7 +115,10 @@ class Login extends React.Component {
   render() {
     const { redirect } = this.state;
     return (
-      redirect ? <Redirect to="/jogo" /> : this.inputLogin()
+      <div className="login-board">
+        <Ratalada />
+        {redirect ? <Redirect to="/jogo" /> : this.inputLogin()}
+      </div>
     );
   }
 }

@@ -1,4 +1,7 @@
-import { ASSERTIONS_COUNT, SCORE_COUNT, SET_USERNAME_EMAIL } from '../actions';
+import {
+  ASSERTIONS_COUNT,
+  RESET_PLAYER, SCORE_COUNT, SET_USERNAME_EMAIL,
+} from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -25,6 +28,8 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       assertions: action.assertions + state.assertions,
     };
+  case RESET_PLAYER:
+    return action.objectReset;
   default:
     return state;
   }

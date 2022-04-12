@@ -1,20 +1,15 @@
 .Header-Board {
   align-items: center;
-  background: whitesmoke;
+  background: black;
   border-radius: 30px;
-  color: black;
+  color: #32c415;
   display: flex;
   flex-direction: row-reverse;
   height: 100px;
   justify-content: space-around;
   opacity: 0.9;
   overflow: auto;
-  width: 100%;
-}
-
-.glass {
-  backdrop-filter: blur(12px);
-  background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.2));
+  width: 900px;
 }
 
 .Info-Board {
@@ -25,6 +20,8 @@
 }
 
 .gravatar-icon {
+  background-color: black;
+  border: 1px solid;
   border-radius: 50%;
   height: 80px;
 }

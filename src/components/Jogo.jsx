@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   changeButtonNextValue,
-  changeColorButtons, countAssertions, countScore, tokenRequestAPI,
+  changeColorButtons, countAssertions, countScore, tokenRequestAPI
 } from '../actions';
+import charadaEspelhada from '../photos/Espelhada.jpg';
+import charada from '../photos/Normal.jpg';
 import Header from './Header';
 import './Jogo-Style.css';
 
@@ -18,7 +20,6 @@ class Jogo extends Component {
     this.state = {
       index: 0,
       assertion: 0,
-      funcScore: 0,
       timer: 30,
       click: 0, // Estado de clique para saber se algo foi clicado, utilizado no timer e no botão.
     };
@@ -88,7 +89,8 @@ class Jogo extends Component {
                         .replace(/&gt;/g, '>').replace(/&quot;/g, '"')
                         .replace(/&#039;/g, '\'')}
                     </span>
-                  </button>)
+                  </button>
+                )
             ))
           }
         </div>
@@ -109,11 +111,8 @@ class Jogo extends Component {
                 type="button"
                 className={ nextButtonHide ? 'btn-next-hide' : 'btn-next' }
                 data-testid="btn-next"
-                onClick={ this.nextQuestion }
               >
-                <span>
-                  NEXT
-                </span>
+                Feedback
               </button>
             </Link>)}
       </div>
@@ -122,7 +121,8 @@ class Jogo extends Component {
 
   nextQuestion = () => {
     const { results, changeValue, nextButtonHide, changeColors, colorAnswerButtons,
-    } = this.props; const { index } = this.state;
+    } = this.props;
+    const { index } = this.state;
     if (results.length - 1 !== index && this.setState((previousValue) => (
       { index: previousValue.index + 1, timer: 30, click: 0 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
     changeValue(nextButtonHide); changeColors(colorAnswerButtons);
@@ -157,9 +157,8 @@ class Jogo extends Component {
   }
 
   timerQuestion = () => {
-    const { assertion, funcScore, timer, click } = this.state;
-    const { changeValue, changeColors, nextButtonHide, colorAnswerButtons,
-      scoreCount, assert } = this.props;
+    const { timer, click } = this.state;
+    const { changeValue, changeColors, nextButtonHide, colorAnswerButtons } = this.props;
     const oneSecond = 1000;
     const timeOut = setTimeout(() => {
       if (click === 0) {
@@ -171,29 +170,29 @@ class Jogo extends Component {
         this.setState({ timer: timer - 1 || timer >= 0 });
       } // Caso o clique tenha valor 0, ele continua no loop
     }, oneSecond);
-    assert(assertion); scoreCount(funcScore); // A cada segundo ele atualiza o estado global do redux de score e acertos.
+    // assert(assertion); scoreCount(funcScore); // A cada segundo ele atualiza o estado global do redux de score e acertos.
   }
 
   render() {
     const { timer } = this.state;
     const { results } = this.props;
     return (
-      <>
+      <div className="box-main reverse">
         <Header />
-        <p className="timer glass">
-          Timer:
+        <p className="timer">
           {timer}
-          {' '}
         </p>
         {results !== undefined && this.renderQuestion()}
-      </>
+        <div>
+          <img src={ charadaEspelhada } alt="Charada" className="charada-left" />
+          <img src={ charada } alt="Charada" className="charada-right" />
+        </div>
+      </div>
     );
   }
 }
 Jogo.propTypes = {
   results: PropTypes.arrayOf(PropTypes.object).isRequired,
-  // assertions: PropTypes.number.isRequired,
-  // score: PropTypes.number.isRequired,
   changeValue: PropTypes.func.isRequired,
   nextButtonHide: PropTypes.bool.isRequired,
   changeColors: PropTypes.func.isRequired,

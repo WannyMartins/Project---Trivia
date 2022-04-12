@@ -6,7 +6,7 @@ import Feedback from './components/Feedback';
 import Jogo from './components/Jogo';
 import Login from './components/Login';
 import Ranking from './components/Ranking';
-import logo from './trivia.png';
+import logo from './ratalada.png';
 
 export default function App() {
   return (

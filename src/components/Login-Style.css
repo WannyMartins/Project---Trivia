@@ -23,20 +23,26 @@ form {
 .card {
   background: linear-gradient(344deg, rgba(40, 40, 55, 1) 0%, rgba(16, 16, 18, 1) 50%);
   border-radius: 20px;
-  box-shadow: -20px -20px 1000px #999;
-  color: #f9f9f9;
+  box-shadow: -20px -20px 1000px #32c415;
+  color: #32c415;
   height: 354px;
   padding: 16px;
   transition: all 0.3s;
   width: 300px;
 }
 
+.login-board {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 /* From uiverse.io by @namecho */
 .button-login, .button-login:after {
-  background: linear-gradient(45deg, transparent 5%, white 5%);
+  background: linear-gradient(45deg, transparent 5%, black 5%);
   border: 0;
-  box-shadow: 6px 0 0 #0b76b7;
-  color: black;
+  box-shadow: 6px 0 0 #32c415;
+  color: #32c415;
   display: flex;
   font-size: 18px;
   justify-content: center;
@@ -61,7 +67,7 @@ form {
   --slice-4: inset(40% -6px 43% 0);
 
   --slice-5: inset(80% -6px 5% 0);
-  background: linear-gradient(45deg, transparent 3%, #0b76b7 3%, #0b76b7 5%, black 5%);
+  background: linear-gradient(45deg, transparent 3%, #32c415 3%, #32c415 5%, black 5%);
   bottom: 0;
   clip-path: var(--slice-0);
   content: "Let'go!";
@@ -70,7 +76,7 @@ form {
   left: 0;
   position: absolute;
   right: 0;
-  text-shadow: -3px -3px 0 #05802e , 3px 3px 0 #0b76b7;
+  text-shadow: -3px -3px 0 #05802e , 3px 3px 0 #32c415;
   top: 0;
 }
 
