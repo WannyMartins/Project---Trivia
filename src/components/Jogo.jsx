@@ -20,11 +20,18 @@ class Jogo extends Component {
       assertion: 0,
       timer: 30,
       click: 0, // Estado de clique para saber se algo foi clicado, utilizado no timer e no botão.
+      allAnswers: [],
     };
   }
 
   componentDidMount() {
     this.timerQuestion(); // Invoca a função no DidMount para atualizar
+    const { index } = this.state;
+    const { results } = this.props; // lembrar da refatoração em nova função
+    const incorrectAnswers = (results[index].incorrect_answers);
+    const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
+    allAnswers.sort(() => Math.random() - randomizeButton);
+    this.setState({ allAnswers });
   }
 
   componentDidUpdate(_prevProps, prevState) {
@@ -34,11 +41,8 @@ class Jogo extends Component {
 
   renderQuestion = () => {
     const { results, nextButtonHide, colorAnswerButtons } = this.props;
-    const { index } = this.state;
+    const { index, allAnswers } = this.state;
     const correctAnswer = results[index].correct_answer;
-    const incorrectAnswers = (results[index].incorrect_answers);
-    const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
-    allAnswers.sort(() => Math.random() - randomizeButton);
     return (
       <div>
         <h1 data-testid="question-category">{results[index].category}</h1>
@@ -113,10 +117,18 @@ class Jogo extends Component {
   nextQuestion = () => {
     const { results, changeValue, nextButtonHide, changeColors, colorAnswerButtons,
     } = this.props;
-    const { index } = this.state;
-    if (results.length - 1 !== index && this.setState((previousValue) => (
-      { index: previousValue.index + 1, timer: 30, click: 0 }))); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
-    changeValue(nextButtonHide); changeColors(colorAnswerButtons);
+    const { index: index2 } = this.state;
+    if (results.length - 1 !== index2 && this.setState((previousValue) => (
+      { index: previousValue.index + 1, timer: 30, click: 0 }), () => {
+      const { index } = this.state; // index = 1 + ...
+      const incorrectAnswers = (results[index].incorrect_answers);
+      const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
+      allAnswers.sort(() => Math.random() - randomizeButton); // refatorar com nova função, e alterar o index2 já que não será mais necessário.
+      this.setState({ allAnswers }, () => {
+        changeValue(nextButtonHide); changeColors(colorAnswerButtons);
+      });
+    })); // Função conjunta para aumentar o valor do ID // e não passa da ultima posição
+    // const correctAnswer = results[index].correct_answer;
   };
 
   selectAnswer = (event) => {
