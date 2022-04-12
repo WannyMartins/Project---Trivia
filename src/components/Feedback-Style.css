@@ -1,0 +1,72 @@
+.board-feedback {
+  background-color: black;
+  color: #32c415;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  justify-content: space-around;
+  width: 900px;
+}
+
+.board-ranking {
+  color: #32c415;
+  display: flex;
+  flex-direction: column;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+li {
+  align-items: center;
+  border: 1px solid #32c415;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 400px;
+}
+
+.marginButton {
+  margin: 20px;
+}
+
+/* From uiverse.io by @nikk7007 */
+.buttons-feedback {
+  background-color: transparent;
+  border: 2px solid #32c415;
+  color: #32c415;
+  font-family: inherit;
+  font-size: 16px;
+  overflow: hidden;
+  padding: 0.8em 1.8em;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.3s;
+  z-index: 1;
+}
+
+.buttons-feedback:before {
+  background: #32c415;
+  content: '';
+  display: block;
+  height: 300%;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  transition: 0.5s ease;
+  width: 0;
+  z-index: -1;
+}
+
+.buttons-feedback:hover:before {
+  width: 105%;
+}
+
+.buttons-feedback:hover {
+  color: #111;
+}

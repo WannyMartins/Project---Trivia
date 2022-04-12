@@ -1,0 +1,162 @@
+.box-main {
+  border-radius: 20px;
+}
+
+.charada-left {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 350px;
+}
+
+.charada-right {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+  width: 350px;
+}
+
+.Game-Board {
+  align-items: center;
+  border-radius: 30px;
+  color: #32c415;
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+  justify-content: space-around;
+  opacity: 0.9;
+  overflow: auto;
+  width: 900px;
+}
+
+.timer {
+  color: #32c415;
+  display: flex;
+  font-size: 30px;
+  font-weight: 700;
+  justify-content: center;
+  justify-items: center;
+  margin: 10px;
+}
+
+.answer-options {
+  display: flex;
+  flex-direction: row;
+}
+
+.Senhor-Me-Ajude {
+  margin: 20px;
+}
+
+.green-border {
+  background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%, transparent 60%, rgba(27, 253, 156, 0.1) 100%);
+  border: 3px solid rgb(6, 240, 15);
+  border-radius: 0.6em;
+  box-shadow: inset 0 0 10px rgb(6, 240, 15) , 0 0 9px 3px rgb(6, 240, 15);
+  color: #32c415;
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  line-height: 1.4em;
+  overflow: hidden;
+  padding: 0.7em 2.7em;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.red-border {
+  background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%, transparent 60%, rgba(27, 253, 156, 0.1) 100%);
+  border: 3px solid red;
+  border-radius: 0.6em;
+  box-shadow: inset 0 0 10px red , 0 0 9px 3px red;
+  color: red;
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  line-height: 1.4em;
+  overflow: hidden;
+  padding: 0.7em 2.7em;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.btn-next-hide {
+  display: none;
+}
+
+.btn-next {
+  display: block;
+}
+
+/* From uiverse.io by @adamgiebl */
+.test {
+  background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%, transparent 60%, rgba(27, 253, 156, 0.1) 100%);
+  border: 2px solid var(--green);
+  border-radius: 0.6em;
+  box-shadow: inset 0 0 10px  #32c415 , 0 0 9px 3px #32c415;
+  color: var(--green);
+  font-family: inherit;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  line-height: 1.4em;
+  overflow: hidden;
+  padding: 0.7em 2.7em;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.test:hover {
+  box-shadow: inset 0 0 10px #32c415 , 0 0 9px 3px #32c415;
+  color: #82ffc9;
+}
+
+.test:before, .green-border:before, .red-border:before {
+  background: linear-gradient(to right, transparent 1%, #32c415 40%, rgba(27, 253, 156, 0.1) 60%, transparent 100%);
+  content: '';
+  height: 100%;
+  left: -4em;
+  position: absolute;
+  top: 0;
+  transition: transform 0.4s ease-in-out;
+  width: 4em;
+}
+
+.test:hover:before, .green-border:hover:before, .red-border:hover:before {
+  transform: translateX(15em);
+}
+
+
+/* From uiverse.io by @niat786 */
+.btn-next-hide, .btn-next {
+  background-image: linear-gradient(30deg, black, #32c415);
+  background-size: 100% auto;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-family: inherit;
+  font-size: 17px;
+  padding: 0.6em 1.5em;
+}
+
+.btn-next-hide:hover, .btn-next:hover {
+
+  /* -webkit-animation: pulse 2s infinite; */
+  animation: pulse512 1.5s infinite;
+  background-position: right center;
+  background-size: 200% auto;
+}
+
+@keyframes pulse512 {
+
+  0% {
+    box-shadow: 0 0 0 0 #05bada66;
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+  }
+}

@@ -6,13 +6,15 @@ import Feedback from './components/Feedback';
 import Jogo from './components/Jogo';
 import Login from './components/Login';
 import Ranking from './components/Ranking';
-import logo from './trivia.png';
+import logo from './ratalada.png';
 
 export default function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
+      </header>
+      <main className="App-main">
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/jogo" component={ Jogo } />
@@ -20,7 +22,7 @@ export default function App() {
           <Route exact path="/ranking" component={ Ranking } />
           <Route exact path="/feedback" component={ Feedback } />
         </Switch>
-      </header>
+      </main>
     </div>
   );
 }

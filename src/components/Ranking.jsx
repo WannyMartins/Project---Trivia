@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeButtonNextValue, changeColorButtons, resetPlayer } from '../actions';
+// import charadaAvatar from '../photos/ImagemCortada.jpg';
+import './Feedback-Style.css';
 
 class Ranking extends Component {
   constructor() {
@@ -64,7 +66,7 @@ class Ranking extends Component {
     const { ranking } = this.state;
     // const userEmailHash = md5(email).toString();
     return (
-      <div>
+      <div className="board-ranking">
         <h3 data-testid="ranking-title">
           Ranking
         </h3>
@@ -72,6 +74,7 @@ class Ranking extends Component {
           <button
             type="button"
             data-testid="btn-go-home"
+            className="buttons-feedback marginButton"
             onClick={ this.resetButtons }
           >
             Home
@@ -84,8 +87,10 @@ class Ranking extends Component {
               <li key={ index }>
                 <img
                   src={ `https://www.gravatar.com/avatar/${md5(element.email).toString()}` }
+                  // src={ charadaAvatar }
                   alt={ `Imagem do usuário ${element.name}` }
                   data-testid="header-profile-picture"
+                  width="100px"
                 />
                 <p data-testid={ `player-name-${index}` }>{element.name}</p>
                 <p data-testid={ `player-score-${index}` }>{element.score}</p>

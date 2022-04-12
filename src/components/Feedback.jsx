@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeButtonNextValue, changeColorButtons, resetPlayer } from '../actions';
+import './Feedback-Style.css';
 import Header from './Header';
 
 class Feedback extends Component {
@@ -32,34 +33,38 @@ class Feedback extends Component {
     return (
       <>
         <Header />
-        <p data-testid="feedback-text">
-          {
-            assertions < minScore ? 'Could be better...' : 'Well Done!'
-          }
-        </p>
-        <p data-testid="feedback-total-score">
-          {score}
-        </p>
-        <p data-testid="feedback-total-question">
-          {assertions}
-        </p>
-        <Link to="/">
-          <button
-            type="button"
-            data-testid="btn-play-again"
-            onClick={ this.resetButtons }
-          >
-            Play Again
-          </button>
-        </Link>
-        <Link to="/ranking">
-          <button
-            type="button"
-            data-testid="btn-ranking"
-          >
-            Ranking
-          </button>
-        </Link>
+        <div className="board-feedback">
+          <p data-testid="feedback-text">
+            {
+              assertions < minScore ? 'Could be better...' : 'Well Done!'
+            }
+          </p>
+          <p data-testid="feedback-total-score">
+            {score}
+          </p>
+          <p data-testid="feedback-total-question">
+            {assertions}
+          </p>
+          <Link to="/">
+            <button
+              type="button"
+              className="buttons-feedback"
+              data-testid="btn-play-again"
+              onClick={ this.resetButtons }
+            >
+              Play Again
+            </button>
+          </Link>
+          <Link to="/ranking">
+            <button
+              type="button"
+              className="buttons-feedback"
+              data-testid="btn-ranking"
+            >
+              Ranking
+            </button>
+          </Link>
+        </div>
       </>
     );
   }
