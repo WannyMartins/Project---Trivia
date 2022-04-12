@@ -1,9 +1,10 @@
+import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { changeButtonNextValue, changeColorButtons, resetPlayer } from '../actions';
-import charadaAvatar from '../photos/ImagemCortada.jpg';
+// import charadaAvatar from '../photos/ImagemCortada.jpg';
 import './Feedback-Style.css';
 
 class Ranking extends Component {
@@ -85,8 +86,8 @@ class Ranking extends Component {
             ranking.map((element, index) => (
               <li key={ index }>
                 <img
-                  // src={ `https://www.gravatar.com/avatar/${md5(element.email).toString()}` }
-                  src={ charadaAvatar }
+                  src={ `https://www.gravatar.com/avatar/${md5(element.email).toString()}` }
+                  // src={ charadaAvatar }
                   alt={ `Imagem do usuário ${element.name}` }
                   data-testid="header-profile-picture"
                   width="100px"

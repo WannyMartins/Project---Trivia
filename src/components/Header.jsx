@@ -2,7 +2,7 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import charadaAvatar from '../photos/ImagemCortada.jpg';
+// import charadaAvatar from '../photos/ImagemCortada.jpg';
 import './Header-Style.css';
 
 class Header extends Component {
@@ -13,8 +13,8 @@ class Header extends Component {
       <div className="Header-Board glass">
         <img
           className="gravatar-icon"
-          // src={ `https://www.gravatar.com/avatar/${userEmailHash}` }
-          src={ charadaAvatar }
+          src={ `https://www.gravatar.com/avatar/${userEmailHash}` }
+          // src={ charadaAvatar }
           alt={ `Imagem do usuário ${name}` }
           data-testid="header-profile-picture"
         />

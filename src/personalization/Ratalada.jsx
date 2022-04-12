@@ -4,7 +4,7 @@ class Ratalada extends React.Component {
   renderFloatText = () => (
     <div className="RataAlada-board">
       <h3 className="primeiro">
-        {' >> THERE YOU ARE. LET\'S PLAY A GAME, JUST ME AND YOU. YOU READY?'}
+        {'>> THERE YOU ARE. LET\'S PLAY, JUST YOU AND ME. IS READY?'}
       </h3>
       <h3 className="segundo">
         {' >> PROCEED? [CLICK PLAY / CLOSE THE PAGE]'}
