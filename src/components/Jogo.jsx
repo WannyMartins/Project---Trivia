@@ -27,7 +27,7 @@ class Jogo extends Component {
   componentDidMount() {
     this.timerQuestion(); // Invoca a função no DidMount para atualizar
     const { index } = this.state;
-    const { results } = this.props;
+    const { results } = this.props; // lembrar da refatoração em nova função
     const incorrectAnswers = (results[index].incorrect_answers);
     const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
     allAnswers.sort(() => Math.random() - randomizeButton);
@@ -43,9 +43,6 @@ class Jogo extends Component {
     const { results, nextButtonHide, colorAnswerButtons } = this.props;
     const { index, allAnswers } = this.state;
     const correctAnswer = results[index].correct_answer;
-    // const incorrectAnswers = (results[index].incorrect_answers);
-    // const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
-    // allAnswers.sort(() => Math.random() - randomizeButton);
     return (
       <div>
         <h1 data-testid="question-category">{results[index].category}</h1>
@@ -123,10 +120,10 @@ class Jogo extends Component {
     const { index: index2 } = this.state;
     if (results.length - 1 !== index2 && this.setState((previousValue) => (
       { index: previousValue.index + 1, timer: 30, click: 0 }), () => {
-      const { index } = this.state;
+      const { index } = this.state; // index = 1 + ...
       const incorrectAnswers = (results[index].incorrect_answers);
       const allAnswers = incorrectAnswers.concat(results[index].correct_answer);
-      allAnswers.sort(() => Math.random() - randomizeButton);
+      allAnswers.sort(() => Math.random() - randomizeButton); // refatorar com nova função, e alterar o index2 já que não será mais necessário.
       this.setState({ allAnswers }, () => {
         changeValue(nextButtonHide); changeColors(colorAnswerButtons);
       });
