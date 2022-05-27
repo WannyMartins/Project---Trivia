@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   changeButtonNextValue,
-  changeColorButtons, countAssertions, countScore, tokenRequestAPI
+  changeColorButtons, countAssertions, countScore, tokenRequestAPI,
 } from '../actions';
 import charadaEspelhada from '../photos/Espelhada.jpg';
 import charada from '../photos/Normal.jpg';
